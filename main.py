@@ -1,5 +1,5 @@
 import requests 
-
+from school.courses import search_class 
 ELLUCIAN_PAGE_URL = "https://student-ssb-regis.montclair.edu/StudentRegistrationSsb/ssb"
 
 # Creates a browser session
@@ -41,52 +41,19 @@ def initialize_term(session: requests.Session, term: str) -> str:
     response.raise_for_status()
 
     return term # try to delete this 
-
-
-def search_class(session: requests.Session, term_code: str): 
-    url = f"{ELLUCIAN_PAGE_URL}/searchResults/searchResults"
-    headers = {
-        "Accept": "application/json, text/javascript, */*; q=0.01",
-        "Referer": f"{ELLUCIAN_PAGE_URL}/classSearch/classSearch",
-        "X-Requested-With": "XMLHttpRequest",
-    }
-    params = {
-        "txt_subject": "BIOL",
-        "txt_courseNumber": "110",
-        "txt_term": "202710",
-        "startDatepicker": "",
-        "endDatepicker": "",
-        "pageOffset": "0",
-        "pageMaxSize": "10",
-        "sortColumn": "subjectDescription",
-        "sortDirection": "asc",
-    }
-
-    keys = [
-        "txt_subject",
-        "txt_term",
-        "startDatepicker",
-        "endDatepicker",
-        "uniqueSessionId",
-        "pageOffset",
-        "pageMaxSize"
-    ]
-
-    response = session.get(url,params=params, headers=headers)
-    response.raise_for_status()
-    print(response.text)
       
+class_test = {"txt_subject" : 'BIOL', "txt_term": "202710"}
 
 
 def main():
-    print("Hello from backend!")
     session = like_browser_session()
 
     term_list = get_term_list(session)
     test_term = term_list[0]["code"] #Get the latest term aviable
 
     initialize_term(session, test_term)
-    result = search_class(session, test_term)
+    result = search_class(session, class_test)
+
     print(result)
 if __name__ == "__main__":
     main()

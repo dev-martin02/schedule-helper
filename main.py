@@ -1,5 +1,6 @@
 import requests 
 from school.courses import search_class 
+
 ELLUCIAN_PAGE_URL = "https://student-ssb-regis.montclair.edu/StudentRegistrationSsb/ssb"
 
 # Creates a browser session

@@ -1,4 +1,4 @@
-from util.db import get_connection
+from util.db import get_connection, start_db
 
 def search_user(name: str) -> list[str]:
     user_search = """
@@ -19,6 +19,8 @@ def insert_user(name: str) -> str:
         cursor.execute(user_insert, (name,))
         print(f"{name} was added it successfully !!")
 
+def insert_availability():
+    pass
 
 if __name__ == "__main__" :
     def welcome_msg(): 
@@ -31,7 +33,15 @@ if __name__ == "__main__" :
             print('It seems like that name is not in our database... Adding you up right now !!\n')
             insert_user(name)
         else:
-            print(f"Welcome Back, {name}!!")
+            print(f"Welcome Back, {name}!! \n")
+            print('Please tell me your availability during the week, which days do you want, morning classes? and gaps (short or long)? \n')
 
+            response = input('days, morning? and gaps: \n')
+            *days,morning, gaps = response.split()
+
+            print(f"Your answer f{days}, morning: {morning}, gaps: {gaps}")
     start_db()
-    welcome_msg()
+
+
+    while (True):
+     welcome_msg()

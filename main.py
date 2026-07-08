@@ -45,6 +45,19 @@ def initialize_term(session: requests.Session, term: str) -> str:
       
 class_test = {"txt_subject" : 'BIOL', "txt_term": "202710"}
 
+# DON'T WORK ON DATABASE YET!
+"""
+ 1. WORK ON THE FEATURE OF THE SCRIPT
+        - Creating the dream schedule algorithm
+        - Mock data
+        
+ 2. Algorithm
+    - Get all the Classes schedule 
+    - Get every professor rating
+    - mix the classes with the professors and sort them based on the rating !! (4 classes means 4 list of data? )
+    - Put them all together  
+
+"""
 
 def main():
     session = like_browser_session()

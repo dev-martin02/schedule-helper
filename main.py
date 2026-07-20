@@ -1,73 +1,28 @@
-import requests 
-from school.courses import search_class 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-ELLUCIAN_PAGE_URL = "https://student-ssb-regis.montclair.edu/StudentRegistrationSsb/ssb"
+from schedules.api import router as schedules_router
+from school.courses.api import router as courses_router
+from util.db import start_db
 
-# Creates a browser session
-def like_browser_session() -> requests.Session:
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/122.0.0.0 Safari/537.36"
-        ),
-        "Accept": "*/*",
-        "Connection": "keep-alive",
-    }
-    session = requests.Session()
-    session.headers.update(headers)
-    return session
+app = FastAPI(title="Schedule Helper API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+start_db()
 
-# Get the terms aviable
-def get_term_list(session: requests.Session) -> list[str]:
-    url = f"{ELLUCIAN_PAGE_URL}/classSearch/getTerms?searchTerm=&offset=1&max=5"
-    response = session.get(url, timeout=30)
-    response.raise_for_status()
-    return response.json()
 
-# Most important step!! without it you won't get the correct data!!!
-def initialize_term(session: requests.Session, term: str) -> str:
-    url = f"{ELLUCIAN_PAGE_URL}/term/termSelection?mode=search"
-    response = session.get(url, timeout=30)
-    response.raise_for_status()
+@app.get("/")
+def read_root() -> dict[str, str]:
+    return {"status": "ok"}
 
-    term_search_url = f"{ELLUCIAN_PAGE_URL}/term/search?mode=search"
 
-    r = session.post(term_search_url, data={"term": term}, timeout=30)
-    if r.status_code >= 400:
-        print('Fallback option!')
-        # Fallback: some instances use txt_term.
-        r = session.post(term_search_url, data={"txt_term": term}, timeout=30)
-    r.raise_for_status()
-    response.raise_for_status()
-
-    return term # try to delete this 
-      
-class_test = {"txt_subject" : 'BIOL', "txt_term": "202710"}
-
-# DON'T WORK ON DATABASE YET!
-"""
- 1. WORK ON THE FEATURE OF THE SCRIPT
-        - Creating the dream schedule algorithm
-        - Mock data
-        
- 2. Algorithm
-    - Get all the Classes schedule 
-    - Get every professor rating
-    - mix the classes with the professors and sort them based on the rating !! (4 classes means 4 list of data? )
-    - Put them all together  
-
-"""
-
-def main():
-    session = like_browser_session()
-
-    term_list = get_term_list(session)
-    test_term = term_list[0]["code"] #Get the latest term aviable
-
-    initialize_term(session, test_term)
-    result = search_class(session, class_test)
-
-    print(result)
-if __name__ == "__main__":
-    main()
+app.include_router(courses_router)
+app.include_router(schedules_router)

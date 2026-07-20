@@ -8,3 +8,6 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Package manager cache
+.pnpm-store/

@@ -43,5 +43,14 @@ def start_db():
                 FOREIGN KEY (user_id) REFERENCES users(id)
             );
         """
+        schedules = """
+            CREATE TABLE IF NOT EXISTS schedules (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                term TEXT NOT NULL,
+                course_ids TEXT NOT NULL,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
+        """
         cursor = conn.cursor()
-        cursor.executescript(user_table + availability_preferences + user_available_days)
+        cursor.executescript(user_table + availability_preferences + user_available_days + schedules)

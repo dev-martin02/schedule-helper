@@ -1,0 +1,16 @@
+
+# DON'T WORK ON DATABASE YET!
+"""
+ 1. WORK ON THE FEATURE OF THE SCRIPT
+        - Creating the dream schedule algorithm
+        - Mock data
+        
+ 2. Algorithm
+    - Get all the Classes schedule 
+    - Get every professor rating
+    - mix the classes with the professors and sort them based on the rating !! (4 classes means 4 list of data? )
+    - Put them all together  
+
+"""
+
+3. Clean the data of courses first !!!

@@ -25,6 +25,11 @@ query SearchProfessors($search: TeacherSearchQuery!, $count: Int) {
 """
 
 def get_professor_rating(professor_name):
+    # Flip Name
+    data = professor_name.split(',')
+
+    professor_fullname = f"{data[1]} {data[0]}"
+
     response = requests.post(
         "https://www.ratemyprofessors.com/graphql",
         headers={
@@ -36,10 +41,10 @@ def get_professor_rating(professor_name):
             "query": query,
             "variables": {
                 "search": {
-                    "text": professor_name,
+                    "text": professor_fullname,
                     "schoolID": "U2Nob29sLTYzMA==",
                 },
-                "count": 10,
+                "count": 1,
             },
         },
         timeout=20,

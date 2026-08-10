@@ -27,7 +27,6 @@ def handshake_request(session: requests.Session, term: str) -> None:
         )
     response.raise_for_status()
 
-
 def like_browser_session() -> requests.Session:
     """Create the session required by the university registration site."""
     session = requests.Session()
@@ -102,9 +101,9 @@ def search_class(session: requests.Session, course_info):
 
 def clean_request(course_info: dict[str, Any]) -> dict[str, Any]:
     cleaned_data = [
-    clean_course_request(course)
-    for course in course_info.get("data")
-    ]
+        clean_course_request(course)
+        for course in course_info.get("data")
+        ]
     return {
         "success": course_info.get("success"),
         "totalCount": course_info.get("totalCount"),

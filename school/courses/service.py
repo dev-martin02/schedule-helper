@@ -1,9 +1,8 @@
 from typing import Any
-
 import requests
-import json
 
 from school.courses.schemas import Course
+from school.courses.util import clean_course_request
 
 
 ELLUCIAN_PAGE_URL = (
@@ -44,9 +43,6 @@ def like_browser_session() -> requests.Session:
         }
     )
     return session
-
-
-
 
 def get_term_list(session: requests.Session) -> list[dict[str, Any]]:
     """Get the academic terms available for course searches."""
@@ -105,11 +101,14 @@ def search_class(session: requests.Session, course_info):
     print(response.text)
 
 def clean_request(course_info: dict[str, Any]) -> dict[str, Any]:
-    print(course_info.keys())
+    cleaned_data = [
+    clean_course_request(course)
+    for course in course_info.get("data")
+    ]
     return {
         "success": course_info.get("success"),
         "totalCount": course_info.get("totalCount"),
-        "data": course_info.get("data", []),
         "pageOffset": course_info.get("pageOffset", 0),
         "pageMaxSize": course_info.get("pageMaxSize", 0),
+        "data": cleaned_data,
     }   

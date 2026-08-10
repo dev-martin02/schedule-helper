@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Scheduly — Build your best semester",
-  description: "A smarter way to find courses and build a college schedule that fits your life.",
+  title: "Course Finder",
+  description: "A simple way to search the Montclair course catalog.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

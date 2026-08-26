@@ -1,4 +1,6 @@
 from school.professor.professorRating import get_professor_rating
+
+
 def clean_course_request(section):
     return {
         "id": section.get("id"),
@@ -22,7 +24,7 @@ def clean_course_request(section):
 
         "faculty": [
             {
-                "ProfessorName": faculty.get('displayName'),
+                "professorName": faculty.get('displayName'),
                 "displayName": get_professor_rating(faculty.get("displayName"))
             }
             for faculty in section.get("faculty", [])

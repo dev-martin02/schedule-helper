@@ -21,7 +21,7 @@ def read_terms() -> list[dict[str, Any]]:
         raise HTTPException(status_code=502, detail=str(error)) from error
 
 
-@router.get("/courses")
+@router.post("/courses")
 def read_courses(
     subject: str = Query(min_length=2, max_length=40),
     term: str | None = None,

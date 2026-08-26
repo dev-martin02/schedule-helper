@@ -4,7 +4,6 @@ import requests
 from school.courses.schemas import Course
 from school.courses.util import clean_course_request
 
-
 ELLUCIAN_PAGE_URL = (
     "https://student-ssb-regis.montclair.edu/StudentRegistrationSsb/ssb"
 )
